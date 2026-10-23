@@ -82,4 +82,14 @@ class Client extends BaseClient
     {
         return $this->client->get('chat/get', ['chatid' => $chatId]);
     }
+
+    /**
+     * 兼容 EasyDingTalk 2.3.2 的命名，等价于 get()。
+     *
+     * @return mixed
+     */
+    public function getInfo($chatId)
+    {
+        return $this->get($chatId);
+    }
 }

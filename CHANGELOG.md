@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.0.1 — 2026-10-24
+
+把 EasyDingTalk 2.3.2 相对 2.3.1 的修复与命名差异，按 3.0 的架构补回。
+
+### 移植内容
+
+- `Conversation::sendCorporationMessage()` 由表单提交改为 JSON 提交（对齐 2.3.2）。钉钉 `asyncsend_v2` 要求 JSON 体，旧实现会被服务端拒绝。
+- 新增 `getInfo()` 兼容别名：Chat / Checkin / Contact / Department / H5app / Process / Role；User 为 `getUserInfo()`。原 `get()` 保持不变，2.3.1 风格调用不受影响。
+- 2.3.2 的 `get() → getInfo()` 重命名在 3.0 中不再是必需项：3.0 的 `Kernel\Http\Client` 已改为继承 SDK 私有 HTTP 层，`Kernel\BaseClient` 不再定义 `get()`，子类 `get()` 与父类无签名冲突，因此以别名方式提供而不做破坏性改名。
+
+### 验证
+
+- 本地 119 用例 / 375 断言通过（新增 8 条别名与 JSON 提交回归）。
+- 未调用真实钉钉 API。
+
 ## 3.0.0 — 2026-10-23
 
 Teamones PHP 8.5 维护版本从 3.0.0 起步，与其他 8.5 包版本线保持一致。

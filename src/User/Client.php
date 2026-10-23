@@ -29,6 +29,16 @@ class Client extends BaseClient
     }
 
     /**
+     * 兼容 EasyDingTalk 2.3.2 的命名，等价于 get()。
+     *
+     * @return mixed
+     */
+    public function getUserInfo($userid, $lang = null)
+    {
+        return $this->get($userid, $lang);
+    }
+
+    /**
      * 获取部门用户 Userid 列表
      *
      * @param int $departmentId
