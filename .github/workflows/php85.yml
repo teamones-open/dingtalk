@@ -1,0 +1,27 @@
+name: PHP 8.5 compatibility
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stack: [modern, psr1]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: curl, json, openssl, simplexml, mbstring, dom
+          coverage: none
+          tools: composer:v2
+      - name: Pin framework-compatible PSR matrix
+        if: matrix.stack == 'psr1'
+        run: >-
+          composer require --no-update --no-scripts
+          'psr/simple-cache:^1.0' 'psr/log:^1.1' 'psr/container:^1.1'
+          'monolog/monolog:^2.11' 'symfony/cache:^6.4' 'symfony/http-foundation:^6.4'
+      - run: composer update --no-interaction --prefer-dist --no-scripts
+      - run: composer validate --strict
+      - run: composer test:strict

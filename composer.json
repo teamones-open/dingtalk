@@ -1,0 +1,62 @@
+{
+    "name": "teamones/dingtalk",
+    "description": "Teamones maintained EasyDingTalk 2.3.1 compatibility fork for PHP 8.5",
+    "keywords": [
+        "dingtalk",
+        "dingding",
+        "easydingtalk",
+        "sdk",
+        "钉钉"
+
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "张铭阳",
+            "email": "mingyoungcheung@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~8.5.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "guzzlehttp/guzzle": "^7.10",
+        "guzzlehttp/promises": "^2.5",
+        "guzzlehttp/psr7": "^2.8",
+        "pimple/pimple": "^3.5",
+        "psr/simple-cache": "^1.0 || ^2.0 || ^3.0",
+        "monolog/monolog": "^2.11 || ^3.0",
+        "symfony/cache": "^6.4 || ^7.4",
+        "symfony/http-foundation": "^6.4 || ^7.4"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^9.6.34"
+    },
+    "conflict": {
+        "mingyoung/dingtalk": "*"
+    },
+    "support": {
+        "source": "https://github.com/teamones-open/dingtalk",
+        "issues": "https://github.com/teamones-open/dingtalk/issues"
+    },
+    "scripts": {
+        "test": "phpunit --do-not-cache-result",
+        "test:strict": "php -d error_reporting=-1 vendor/bin/phpunit --do-not-cache-result"
+    },
+    "autoload": {
+        "psr-4": {
+            "EasyDingTalk\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EasyDingTalk\\Tests\\": "tests/"
+        }
+    }
+}

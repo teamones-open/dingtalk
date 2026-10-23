@@ -1,0 +1,6 @@
+/vendor/
+composer.lock
+.idea/
+/.teones/
+/.phpunit.result.cache
+/output/
