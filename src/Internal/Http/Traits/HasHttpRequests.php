@@ -30,6 +30,8 @@ trait HasHttpRequests
      */
     protected $httpClient;
 
+    protected bool $ownsHttpClient = false;
+
     /**
      * @var array
      */
@@ -79,6 +81,7 @@ trait HasHttpRequests
     public function setHttpClient(ClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
+        $this->ownsHttpClient = false;
 
         return $this;
     }
@@ -91,7 +94,8 @@ trait HasHttpRequests
     public function getHttpClient(): ClientInterface
     {
         if (!$this->httpClient) {
-            $this->httpClient = new Client();
+            $this->httpClient = new Client(['handler' => $this->getHandlerStack()]);
+            $this->ownsHttpClient = true;
         }
 
         return $this->httpClient;
@@ -153,7 +157,9 @@ trait HasHttpRequests
     {
         $method = strtoupper($method);
 
-        $options = array_merge(self::$defaults, $options, ['handler' => $this->getHandlerStack()]);
+        $options = array_merge(self::$defaults, $options);
+        // Guzzle 7.12+ requires handlers at client construction, not per request.
+        unset($options['handler']);
 
         $response = $this->getHttpClient()->request($method, $uri, $options);
         $response->getBody()->rewind();
@@ -169,6 +175,9 @@ trait HasHttpRequests
     public function setHandlerStack(HandlerStack $handlerStack)
     {
         $this->handlerStack = $handlerStack;
+        if ($this->ownsHttpClient) {
+            $this->httpClient = null;
+        }
 
         return $this;
     }

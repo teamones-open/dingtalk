@@ -177,7 +177,8 @@ class Client
     public function getHttpClient(): \GuzzleHttp\ClientInterface
     {
         if (!$this->httpClient) {
-            $this->httpClient = new GuzzleClient($this->config->toArray());
+            $this->httpClient = new GuzzleClient(array_merge($this->config->toArray(), ['handler' => $this->getHandlerStack()]));
+            $this->ownsHttpClient = true;
         }
 
         return $this->httpClient;

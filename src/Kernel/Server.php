@@ -84,9 +84,17 @@ class Server
         array_push($this->handlers, $handler);
     }
 
+    /** Preserve Symfony Request::get() precedence without its deprecated API. */
+    protected function requestParameter(string $key)
+    {
+        $request = $this->app['request'];
+        if ($request->attributes->has($key)) { return $request->attributes->all()[$key]; }
+        if ($request->query->has($key)) { return $request->query->all()[$key]; }
+        return $request->request->all()[$key] ?? null;
+    }
+
     /**
      * Get request payload.
-     *
      * @return array
      */
     public function getPayload()
@@ -98,7 +106,7 @@ class Server
         }
 
         $result = $this->app['encryptor']->decrypt(
-            $payload['encrypt'], $this->app['request']->get('signature'), $this->app['request']->get('nonce'), $this->app['request']->get('timestamp')
+            $payload['encrypt'], $this->requestParameter('signature'), $this->requestParameter('nonce'), $this->requestParameter('timestamp')
         );
 
         return json_decode($result, true);

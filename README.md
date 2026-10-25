@@ -82,3 +82,7 @@ IM 原服务类离线桥接各 12 项断言。真实钉钉 API 和完整 IM 业�
 - EasyDingTalk 2.3.1：`74d12baff001494985e6f7c2fba875702c6a9535`
 - 内部 HTTP 1.1.3：`6374e7486d637cd7f8dfa2b8a2f4d5ab055110b4`
 - MIT；保留作者版权和许可，详见 `LICENSE`、`THIRD_PARTY_NOTICES.md` 和 `licenses/`。
+
+## 3.0.2 strict diagnostics
+
+Guzzle handlers are configured when the client is constructed, keeping SDK middleware and client options without deprecated per-request handler options. Callback parameters retain attributes > query > POST precedence using Symfony parameter bags. Strict tests also fail on deprecations wrapped in @.
